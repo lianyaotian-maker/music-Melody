@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>钢琴即兴伴奏思维导图</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#EDF0F5;--surface:#FFFFFF;--surface2:#F5F7FA;--ink:#1A2030;--muted:#586174;--line:#D3D9E3;--bar:rgba(237,240,245,.92);
+  --key-w:#FFFFFF;--key-b:#232838;--key-line:#8E97A8;--key-ink:#1A2030;--key-bink:#FFFFFF;
+  --hl1:#F6B4C3;--hl1b:#C0264A;--hl2:#C9CDF7;--hl2b:#4B50C8;--hl3:#F9D89E;--hl3b:#BF7A0E;
+  --key:#C0264A;--hard:#5B3FC4;--on-tag:#FFFFFF;
+  --tbgS:70%;--tbgL:94%;--tfgS:55%;--tfgL:30%;--tlnS:45%;--tlnL:62%;
+  --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151C;--surface:#1B2029;--surface2:#161A22;--ink:#E6E9EF;--muted:#9CA4B4;--line:#2E3543;--bar:rgba(18,21,28,.92);
+    --key-w:#DDE1E8;--key-b:#06070A;--key-line:#4B5364;--key-ink:#141923;--key-bink:#FFFFFF;
+    --hl1:#EF94A8;--hl1b:#E04A6B;--hl2:#A6ABF3;--hl2b:#6C72E8;--hl3:#EBC67E;--hl3b:#D3962A;
+    --key:#F0668A;--hard:#A08CF7;--on-tag:#12151C;
+    --tbgS:26%;--tbgL:19%;--tfgS:70%;--tfgL:78%;--tlnS:38%;--tlnL:48%;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151C;--surface:#1B2029;--surface2:#161A22;--ink:#E6E9EF;--muted:#9CA4B4;--line:#2E3543;--bar:rgba(18,21,28,.92);
+  --key-w:#DDE1E8;--key-b:#06070A;--key-line:#4B5364;--key-ink:#141923;--key-bink:#FFFFFF;
+  --hl1:#EF94A8;--hl1b:#E04A6B;--hl2:#A6ABF3;--hl2b:#6C72E8;--hl3:#EBC67E;--hl3b:#D3962A;
+  --key:#F0668A;--hard:#A08CF7;--on-tag:#12151C;
+  --tbgS:26%;--tbgL:19%;--tfgS:70%;--tfgL:78%;--tlnS:38%;--tlnL:48%;
+  color-scheme:dark;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 -apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+:focus-visible{outline:2px solid var(--hl2b);outline-offset:2px}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+
+/* hero */
+.hero{padding-top:28px;padding-bottom:6px}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,7.5vw,42px);line-height:1.2;margin:0 0 8px;letter-spacing:.01em}
+.goal{margin:0;color:var(--muted)}
+.formula{display:flex;align-items:stretch;gap:6px;margin:16px 0 6px}
+.fx{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.fx b{display:block;font-family:var(--serif);font-size:17px;line-height:1.35}
+.fx span{font-size:12px;color:var(--muted)}
+.plus{align-self:center;color:var(--muted);font-weight:700}
+.ov{display:block;width:100%;max-width:520px;margin:4px auto 0;height:auto}
+.ovl{fill:none;stroke:hsl(var(--h) var(--tlnS) var(--tlnL));stroke-width:2.5}
+.ovn{cursor:pointer}
+.ovn rect{fill:hsl(var(--h) var(--tbgS) var(--tbgL));stroke:hsl(var(--h) var(--tlnS) var(--tlnL));stroke-width:1.5}
+.ovn:hover rect,.ovn:focus-visible rect{stroke-width:3}
+.ovn:focus{outline:none}
+.ovn text{fill:hsl(var(--h) var(--tfgS) var(--tfgL));font-size:14px;font-weight:700;text-anchor:middle}
+.ovc{fill:var(--ink)}
+.ovct{fill:var(--bg);font-family:var(--serif);font-size:21px;font-weight:900;text-anchor:middle}
+.hint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 8px}
+.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 14px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+
+/* toolbar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bar);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;gap:8px;padding-top:10px;padding-bottom:10px;overflow-x:auto}
+.btn{flex:none;font:inherit;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* branches */
+main{padding:6px 0 24px}
+.branch{--tbg:hsl(var(--h) var(--tbgS) var(--tbgL));--tfg:hsl(var(--h) var(--tfgS) var(--tfgL));--tln:hsl(var(--h) var(--tlnS) var(--tlnL));margin:12px 0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--tln);border-radius:14px;overflow:hidden}
+.bhead{width:100%;display:flex;align-items:center;gap:12px;padding:12px 12px;background:none;border:0;color:inherit;text-align:left;cursor:pointer;font:inherit}
+.bicon{width:42px;height:42px;border-radius:12px;background:var(--tbg);display:grid;place-items:center;font-size:21px;flex:none}
+.bt{flex:1;min-width:0;display:flex;flex-direction:column}
+.btitle{font-family:var(--serif);font-weight:900;font-size:19px;line-height:1.3;color:var(--tfg)}
+.bsum{font-size:13px;color:var(--muted);line-height:1.45}
+.bmeta{font-size:11px;color:var(--muted);text-align:right;line-height:1.4;flex:none}
+.chev{flex:none;width:18px;color:var(--tfg);font-weight:800;font-size:19px;line-height:1.2;text-align:center;transition:transform .2s}
+button[aria-expanded="true"]>.chev{transform:rotate(90deg)}
+.bbody{padding:0 12px 14px 6px}
+
+/* mind-map tree */
+.tree{list-style:none;margin:0;padding:0 0 0 6px}
+.tree>li{position:relative;padding:4px 0 4px 16px}
+.tree>li::before{content:"";position:absolute;left:0;top:0;bottom:0;border-left:2px solid var(--tln)}
+.tree>li:last-child::before{bottom:auto;height:23px}
+.tree>li::after{content:"";position:absolute;left:0;top:23px;width:12px;border-top:2px solid var(--tln)}
+.nrow{display:flex;align-items:flex-start;gap:8px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--tbg);border:0;border-radius:10px;padding:7px 10px;min-height:38px}
+button.nrow{cursor:pointer}
+.lv2>button.nrow .ntext{font-weight:600}
+.lv3>.nrow{background:transparent;padding:4px 6px;min-height:0}
+.lv3::after{top:19px!important}
+.tree>li.lv3:last-child::before{height:19px}
+.ntext{flex:1;min-width:0;line-height:1.55}
+.dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--tln);margin-top:9px}
+.tags{display:inline-flex;gap:4px;margin-left:6px;vertical-align:2px;flex-wrap:wrap}
+.tag{font-size:11px;line-height:1;padding:3px 6px;border-radius:6px;font-weight:700;color:var(--on-tag)}
+.tag.key{background:var(--key)}
+.tag.hard{background:var(--hard)}
+.figm{font-size:12px;line-height:1}
+.nbody{padding:6px 0 4px 4px}
+.nbody>p{margin:4px 0 10px;font-size:14.5px}
+.filtering .tree>li[data-t="0"]{display:none}
+
+/* figures */
+.fig{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:12px;margin:6px 0 10px;overflow-x:auto}
+.cap{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.kh{font-size:13px;font-weight:700;margin-bottom:4px}
+.kh small{font-weight:400;color:var(--muted)}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kbd,.svgf{width:100%;height:auto;display:block}
+.kw{fill:var(--key-w);stroke:var(--key-line);stroke-width:1}
+.kb{fill:var(--key-b)}
+.kw.h1{fill:var(--hl1)}.kw.h2{fill:var(--hl2)}.kw.h3{fill:var(--hl3)}
+.kb.h1{fill:var(--hl1b)}.kb.h2{fill:var(--hl2b)}.kb.h3{fill:var(--hl3b)}
+.kt{font-size:10px;font-weight:800;text-anchor:middle;fill:var(--key-ink)}
+.kbt{fill:var(--key-bink);font-size:7.5px}
+.arc{fill:none;stroke:var(--muted);stroke-width:1.2}
+.arc1{stroke:var(--key)}
+.st{font-size:9.5px;text-anchor:middle;fill:var(--muted)}
+.st1{fill:var(--key);font-weight:800}
+.tw{overflow-x:auto}
+.tbl{border-collapse:collapse;width:100%;font-size:13px}
+.tbl th,.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl th{color:var(--muted);font-weight:600;white-space:nowrap}
+.tbl td:first-child{font-weight:700;white-space:nowrap}
+.tbl tr.kr td{background:var(--tbg)}
+.kd{color:var(--key);margin-right:3px}
+.dia th,.dia td,.mx th,.mx td{text-align:center;padding:6px 4px}
+.dia td:first-child,.mx td:first-child{text-align:left}
+.fT{--h:160}.fS{--h:40}.fD{--h:350}
+.ftone{background:hsl(var(--h) var(--tbgS) var(--tbgL));color:hsl(var(--h) var(--tfgS) var(--tfgL))}
+.fchip{display:inline-block;min-width:22px;border-radius:5px;font-weight:800;font-size:12px}
+.dotc{display:inline-block;width:12px;height:12px;border-radius:50%;background:hsl(var(--h) var(--tlnS) var(--tlnL))}
+.mx small{font-weight:400;color:var(--muted)}
+.road{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rstep{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;cursor:pointer;position:relative}
+.rstep input{position:absolute;opacity:0;width:1px;height:1px}
+.rnum{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;border:2px solid var(--tln);color:var(--tfg);font-size:14px}
+.rstep input:checked+.rnum{background:var(--tln);color:var(--surface)}
+.rstep input:focus-visible+.rnum{outline:2px solid var(--hl2b);outline-offset:2px}
+.rstep:has(input:checked) .rh b{text-decoration:line-through;text-decoration-color:var(--tln)}
+.rtxt{display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.55}
+.rh{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rh em{font-style:normal;font-size:12px;color:var(--muted)}
+.rok{font-size:12.5px;color:var(--tfg)}
+.prog{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px}
+.ph{display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+.pg{display:grid;gap:4px;align-items:center}
+.pl{font-size:11px;color:var(--muted);white-space:nowrap}
+.pr{font-size:11px;text-align:center;color:var(--muted);font-weight:700}
+.chip{display:inline-block;font-size:12.5px;font-weight:800;text-align:center;border-radius:6px;padding:5px 0;white-space:nowrap;overflow:hidden}
+.chip.nt{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.pf{font-size:12.5px;color:var(--muted);margin-top:6px}
+.flow{list-style:none;margin:0;padding:0}
+.flow li{display:flex;gap:10px;align-items:flex-start;position:relative;padding:0 0 12px}
+.flow li:not(:last-child)::after{content:"";position:absolute;left:13px;top:30px;bottom:2px;border-left:2px dashed var(--line)}
+.fn{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tbg);color:var(--tfg);border:2px solid var(--tln);display:grid;place-items:center;font-weight:800;font-size:13px}
+.flow small,.dl small{color:var(--muted);font-size:12.5px}
+.jh{font-size:13px;font-weight:700;margin:2px 0 6px}
+.jp{display:grid;grid-template-columns:repeat(4,1fr);border-left:2px solid var(--ink);margin-bottom:14px}
+.jbar{border-right:2px solid var(--ink);padding:0 3px}
+.jc{display:grid;grid-template-columns:1fr 1fr;font-size:12px;font-weight:800;color:var(--hard);min-height:20px;text-align:center;white-space:nowrap}
+.jn{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.js{color:var(--key);font-weight:800}
+.grid{margin:4px 0 16px}
+.gtitle{font-weight:700;font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.meter{font-size:11px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px;background:var(--surface)}
+.gg{display:grid;gap:3px}
+.gh{text-align:center;font-size:11px;color:var(--muted)}
+.gh.gs{color:var(--ink);font-weight:800}
+.gl{font-size:12px;color:var(--muted);align-self:center}
+.gc{height:32px;border-radius:6px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:800}
+.gc.on.t1{background:var(--hl1b);color:#FFFFFF;border-color:transparent}
+.gc.on.t2{background:var(--hl2b);color:#FFFFFF;border-color:transparent}
+.gc.hold{background:linear-gradient(var(--hl1),var(--hl1)) center/100% 6px no-repeat,var(--surface)}
+.bm{display:flex;align-items:flex-end;gap:10px;margin-bottom:12px}
+.bm .meter{margin-bottom:20px}
+.bb{flex:1;display:flex;gap:4px;height:70px;align-items:stretch}
+.bcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;text-align:center}
+.bv{background:var(--tln);border-radius:4px 4px 0 0;min-height:6px}
+.bcol span{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.2}
+.sl{font-size:12px;fill:var(--muted);font-weight:700}
+.pbox{fill:var(--hl2)}
+.pt{font-size:14px;font-weight:800;text-anchor:middle;fill:var(--key-ink)}
+.pdash{stroke:var(--muted);stroke-dasharray:3 3}
+.pline{fill:none;stroke:var(--key);stroke-width:2.5;stroke-linejoin:round}
+.sn{font-size:11px;fill:var(--muted)}
+.axis{stroke:var(--line);stroke-width:1.5}
+.earea{fill:var(--hl1);opacity:.45}
+.eline{fill:none;stroke:var(--key);stroke-width:2.5;stroke-linejoin:round}
+.edot{fill:var(--surface);stroke:var(--key);stroke-width:2}
+.edot.ech{fill:var(--key)}
+.elab{font-size:10px;text-anchor:middle;fill:var(--muted)}
+.elab.ech2{fill:var(--key);font-weight:800}
+.enote{font-size:11px;text-anchor:middle;fill:var(--key);font-weight:800}
+.fcirc{fill:hsl(var(--h) var(--tbgS) var(--tbgL));stroke:hsl(var(--h) var(--tlnS) var(--tlnL));stroke-width:2}
+.ftxt{fill:hsl(var(--h) var(--tfgS) var(--tfgL));text-anchor:middle;font-weight:800}
+.fbig{font-size:24px}.fsm{font-size:11px;font-weight:600}
+.fch{font-size:13px;font-weight:800;text-anchor:middle;fill:var(--ink)}
+.fde{font-size:11px;text-anchor:middle;fill:var(--muted)}
+.farr{fill:none;stroke:var(--muted);stroke-width:2}
+.ahp{fill:var(--muted)}
+.bch{font-size:12px;font-weight:800;text-anchor:middle;fill:var(--hard)}
+.bstep{fill:var(--key)}
+.bnote{font-size:11px;text-anchor:middle;fill:var(--muted);font-weight:700}
+.bpath{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 3;opacity:.6}
+.c5o{fill:var(--surface);stroke:var(--line)}
+.c5c{fill:hsl(40 var(--tbgS) var(--tbgL))}
+.c5i{fill:var(--surface2);stroke:var(--line)}
+.c5ctr{fill:var(--ink)}
+.c5t{fill:var(--bg);font-size:12px;text-anchor:middle;font-weight:700}
+.c5M{font-size:14px;font-weight:800;text-anchor:middle;fill:var(--ink)}
+.c5s{font-size:9px;text-anchor:middle;fill:var(--muted)}
+.c5m{font-size:11px;text-anchor:middle;fill:var(--muted)}
+.sd{display:grid;gap:6px}
+.sdr{display:flex;align-items:center;gap:8px}
+.sdr .chip,.sdx .chip{min-width:46px;padding:5px 8px}
+.sar{color:var(--muted)}
+.sdr small{color:var(--muted);font-size:12px}
+.sdx{display:flex;gap:6px;margin:4px 0}
+.dbar{display:flex;height:34px;border-radius:8px;overflow:hidden;gap:2px}
+.dseg{display:grid;place-items:center;font-size:12px;font-weight:800;background:hsl(var(--h) var(--tbgS) var(--tbgL));color:hsl(var(--h) var(--tfgS) var(--tfgL));border:1px solid hsl(var(--h) var(--tlnS) var(--tlnL))}
+.dl{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px;font-size:13.5px}
+.dl li{display:flex;gap:8px}
+.dsw{flex:none;width:10px;height:10px;border-radius:3px;margin-top:7px;background:hsl(var(--h) var(--tlnS) var(--tlnL))}
+.foot{color:var(--muted);font-size:13px;text-align:center;padding-top:4px;padding-bottom:28px}
+@media (max-width:420px){
+  .bbody{padding:0 8px 12px 2px}
+  .fig{padding:10px}
+  .bmeta{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="wrap hero">
+  <h1>钢琴即兴伴奏<br>思维导图</h1>
+  <p class="goal">目标：拿到一首流行歌，能即兴弹出有层次、节奏稳的完整伴奏。</p>
+  <div class="formula" aria-label="即兴伴奏的三要素">
+    <div class="fx"><b>和弦</b><span>弹什么音</span></div><span class="plus">+</span>
+    <div class="fx"><b>织体节奏</b><span>怎么弹</span></div><span class="plus">+</span>
+    <div class="fx"><b>编配</b><span>何时变化</span></div>
+  </div>
+  <div id="overview"></div>
+  <p class="hint">点任意分支直接跳过去；建议从“学习路线”开始顺时针学。</p>
+  <div class="legend">
+    <span><span class="tag key">重点</span>必须掌握</span>
+    <span><span class="tag hard">难点</span>需要多练</span>
+    <span>📊 含图解</span>
+  </div>
+</header>
+<nav class="bar" aria-label="视图控制">
+  <div class="wrap">
+    <button class="btn" type="button" data-act="open">全部展开</button>
+    <button class="btn" type="button" data-act="close">全部收起</button>
+    <button class="btn" type="button" data-act="filter" aria-pressed="false">只看重点和难点</button>
+  </div>
+</nav>
+<main class="wrap" id="map"></main>
+<p class="wrap foot">每学完一个分支，就拿一首真实的歌弹一遍。</p>
+
+<script>
+const LSK='piano-acc-roadmap';
+
+/* ---------- helpers ---------- */
+const PCN={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function mid(n){const r=/^([A-G])([#b]?)(\d)$/.exec(n);return PCN[r[1]]+(r[2]==='#'?1:r[2]==='b'?-1:0)+12*(+r[3]+1);}
+const isBlk=p=>[1,3,6,8,10].includes(p%12);
+function kb(o){
+  const from=mid(o.from),to=mid(o.to),W=24,H=92,BW=15,BH=58,top=o.steps?24:2;
+  const hl={};for(const k in (o.hl||{}))hl[mid(k)]=o.hl[k];
+  const wh=[],bl=[],cx={};let x=0;
+  for(let p=from;p<=to;p++){
+    if(!isBlk(p)){wh.push({p,x});cx[p]=x+W/2;x+=W;}
+    else{bl.push({p,x:x-BW/2});cx[p]=x;}
+  }
+  const w=x;
+  let s=`<svg class="kbd" viewBox="-1 ${-top} ${w+2} ${H+top+2}" style="max-width:${Math.round((w+2)*1.55)}px" role="img" aria-label="${o.aria||'键盘示意图'}">`;
+  for(const k of wh){const h=hl[k.p];s+=`<rect x="${k.x}" y="0" width="${W}" height="${H}" rx="3" class="kw${h?' h'+h[0]:''}"/>`;if(h&&h[1])s+=`<text x="${k.x+W/2}" y="${H-10}" class="kt">${h[1]}</text>`;}
+  for(const k of bl){const h=hl[k.p];s+=`<rect x="${k.x}" y="0" width="${BW}" height="${BH}" rx="2" class="kb${h?' h'+h[0]:''}"/>`;if(h&&h[1])s+=`<text x="${k.x+BW/2}" y="${BH-8}" class="kt kbt">${h[1]}</text>`;}
+  if(o.steps)for(const [a,b,t,c] of o.steps){const xa=cx[mid(a)],xb=cx[mid(b)],xm=(xa+xb)/2;s+=`<path d="M${xa} -3 Q${xm} -11 ${xb} -3" class="arc${c?' arc'+c:''}"/><text x="${xm}" y="-12" class="st${c?' st'+c:''}">${t}</text>`;}
+  return s+'</svg>';
+}
+const CNT={'4/4':['1','哒','2','哒','3','哒','4','哒'],'3/4':['1','哒','2','哒','3','哒'],'6/8':['1','2','3','4','5','6']};
+const STRONG={'4/4':[0,4],'3/4':[0],'6/8':[0,3]};
+function grid(title,meter,rows,note){
+  const c=CNT[meter],n=c.length;
+  let s=`<div class="grid"><div class="gtitle">${title}<span class="meter">${meter}</span></div><div class="gg" style="grid-template-columns:40px repeat(${n},minmax(0,1fr))"><div></div>`;
+  c.forEach((t,i)=>{s+=`<div class="gh${STRONG[meter].includes(i)?' gs':''}">${t}</div>`;});
+  for(const r of rows){s+=`<div class="gl">${r[0]}</div>`;r[1].forEach(v=>{s+=v==='-'?'<div class="gc hold"></div>':v?`<div class="gc on t${r[2]||1}">${v}</div>`:'<div class="gc"></div>';});}
+  return s+'</div>'+(note?`<div class="cap">${note}</div>`:'')+'</div>';
+}
+function table(head,rows){
+  return '<div class="tw"><table class="tbl"><thead><tr>'+head.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')+'</tbody></table></div>';
+}
+
+/* ---------- figures ---------- */
+const FIG={
+roadmap(){
+  const st=[
+    ['乐理与和弦','1–2 周','弄懂音程和大小三和弦，C、G、F 调的顺阶和弦随手能按出。','任意报一个和弦，3 秒内按出原位。'],
+    ['常用进行 + 左手织体','2–3 周','背熟 4 个常用进行，左手掌握 3 种织体。','开节拍器，用卡农进行 + 分解和弦连续弹 2 分钟不停。'],
+    ['看和弦谱伴奏','约 2 周','拿着带和弦标记的谱，伴奏一首完整的歌。','主歌和副歌听得出明显区别。'],
+    ['自己给旋律配和弦','3–4 周','只有简谱旋律时，自己找出和弦。','给《小星星》配出两个不同版本。'],
+    ['编配与色彩','长期','副属和弦、借用和弦、升调、加花与过门。','即兴伴奏一首从没练过的流行歌。']
+  ];
+  let done={};try{done=JSON.parse(localStorage.getItem(LSK)||'{}')||{};}catch(e){done={};}
+  return '<ol class="road">'+st.map((s,i)=>`<li><label class="rstep"><input type="checkbox" data-road="${i}"${done[i]?' checked':''}><span class="rnum">${i+1}</span><span class="rtxt"><span class="rh"><b>${s[0]}</b><em>${s[1]}</em></span><span>${s[2]}</span><span class="rok">达标：${s[3]}</span></span></label></li>`).join('')+'</ol><div class="cap">点一下可以打勾，进度保存在这台设备的浏览器里。</div>';
+},
+semitone(){
+  return kb({from:'C4',to:'C5',hl:{'C4':[2,'C'],'C#4':[2,'C♯'],'D4':[2,'D'],'E4':[1,'E'],'F4':[1,'F'],'B4':[1,'B'],'C5':[1,'C']},steps:[['C4','C#4','半'],['C#4','D4','半'],['E4','F4','半',1],['B4','C5','半',1]]})+'<div class="cap">C → C♯ 半音，C♯ → D 半音，所以 C → D 是<b>全音</b>。E–F、B–C 之间没有黑键，本身就是半音（红色）。</div>';
+},
+scale(){
+  const lab=['1','2','3','4','5','6','7','1'],stp=['全','全','半','全','全','全','半'];
+  const cN=['C4','D4','E4','F4','G4','A4','B4','C5'],gN=['G3','A3','B3','C4','D4','E4','F#4','G4'];
+  const mk=ns=>{const hl={};ns.forEach((n,i)=>{hl[n]=[n.includes('#')?1:3,lab[i]];});return hl;};
+  const st=ns=>stp.map((t,i)=>[ns[i],ns[i+1],t,t==='半'?1:0]);
+  return `<div class="kh">C 大调（键上数字是简谱唱名）</div>${kb({from:'C4',to:'C5',hl:mk(cN),steps:st(cN)})}<div class="kh" style="margin-top:12px">G 大调</div>${kb({from:'G3',to:'G4',hl:mk(gN),steps:st(gN)})}<div class="cap">把同一个公式放到 G 上，第 7 个音必须是 F♯ 才符合“全全半全全全半”，所以 G 大调有一个升号。</div>`;
+},
+intervals(){
+  const R=[['小二度',1,'C–C♯','刺耳、紧张'],['大二度',2,'C–D','一步之遥'],['<span class="kd">●</span>小三度',3,'C–E♭','暗淡：小和弦的灵魂'],['<span class="kd">●</span>大三度',4,'C–E','明亮：大和弦的灵魂'],['纯四度',5,'C–F','空旷'],['三全音',6,'C–F♯','极不稳定'],['<span class="kd">●</span>纯五度',7,'C–G','稳定：和弦的骨架'],['大六度',9,'C–A','温暖'],['小七度',10,'C–B♭','属七和弦的味道'],['大七度',11,'C–B','柔美、略带张力'],['八度',12,'C–C','同一个音高八度']];
+  return table(['音程','半音数','例子','听感'],R)+'<div class="cap">● 标出的三个最先记住，所有三和弦都由它们搭成。</div>';
+},
+circle(){
+  const M=['C','G','D','A','E','B','F♯/G♭','D♭','A♭','E♭','B♭','F'];
+  const m=['Am','Em','Bm','F♯m','C♯m','G♯m','D♯m','B♭m','Fm','Cm','Gm','Dm'];
+  const sg=['无','1♯','2♯','3♯','4♯','5♯','6♯/6♭','5♭','4♭','3♭','2♭','1♭'];
+  const common=new Set([0,1,2,3,4,9,10,11]);
+  const cx=170,cy=170,pt=(r,a)=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];
+  const seg=(r1,r2,a0,a1,cls)=>{const [x1,y1]=pt(r2,a0),[x2,y2]=pt(r2,a1),[x3,y3]=pt(r1,a1),[x4,y4]=pt(r1,a0);return `<path d="M${x1} ${y1}A${r2} ${r2} 0 0 1 ${x2} ${y2}L${x3} ${y3}A${r1} ${r1} 0 0 0 ${x4} ${y4}Z" class="${cls}"/>`;};
+  let s='<svg viewBox="0 0 340 340" class="svgf" style="max-width:380px;margin:0 auto" role="img" aria-label="五度圈">';
+  for(let i=0;i<12;i++){
+    const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180;
+    s+=seg(104,162,a0,a1,'c5o'+(common.has(i)?' c5c':''));
+    s+=seg(64,104,a0,a1,'c5i');
+    const [mx,my]=pt(140,am),[sx,sy]=pt(117,am),[nx,ny]=pt(84,am);
+    s+=`<text x="${mx}" y="${my+5}" class="c5M"${i===6?' style="font-size:11px"':''}>${M[i]}</text><text x="${sx}" y="${sy+3}" class="c5s">${sg[i]}</text><text x="${nx}" y="${ny+4}" class="c5m">${m[i]}</text>`;
+  }
+  s+=`<circle cx="${cx}" cy="${cy}" r="64" class="c5ctr"/><text x="170" y="166" class="c5t">顺时针 +1♯</text><text x="170" y="186" class="c5t">逆时针 +1♭</text></svg>`;
+  return s+'<div class="cap">外圈是大调和它的调号，内圈是关系小调（调号相同）。带底色的 8 个是流行歌最常见的调。</div>';
+},
+symbols(){
+  const R=[['C','大三和弦','C E G','明亮',1],['Cm','小三和弦','C E♭ G','柔和、忧伤',1],['C7','属七和弦','C E G B♭','想“回家”',1],['Cmaj7','大七和弦','C E G B','温柔、都市感',1],['Cm7','小七和弦','C E♭ G B♭','柔、慵懒',1],['Csus4','挂四和弦','C F G','悬着，常回到 C'],['Csus2','挂二和弦','C D G','空灵'],['Cadd9','加九和弦','C E G D','通透、有“高级感”'],['C6','大六和弦','C E G A','复古、温暖'],['Cdim','减三和弦','C E♭ G♭','紧张'],['Cdim7','减七和弦','C E♭ G♭ A','很紧张，常作经过'],['Caug / C+','增三和弦','C E G♯','悬浮、不安'],['Cm7♭5','半减七和弦','C E♭ G♭ B♭','用在 vii 级'],['C/E','斜杠和弦','右手 C 和弦，左手低音 E','低音更流畅',1]];
+  return table(['写法','名称','组成音','听感'],R.map(r=>[(r[4]?'<span class="kd">●</span>':'')+r[0],r[1],r[2],r[3]]))+'<div class="cap">● 是流行歌里最常见、必须先认熟的写法。所有例子都以 C 为根音，换根音时结构不变。</div>';
+},
+triads(){
+  const T=[['C 大三','4 + 3',{'C4':[1,'C'],'E4':[3,'E'],'G4':[3,'G']}],['Cm 小三','3 + 4',{'C4':[1,'C'],'Eb4':[2,'E♭'],'G4':[3,'G']}],['Cdim 减三','3 + 3',{'C4':[1,'C'],'Eb4':[2,'E♭'],'Gb4':[2,'G♭']}],['Caug 增三','4 + 4',{'C4':[1,'C'],'E4':[3,'E'],'G#4':[2,'G♯']}]];
+  return '<div class="kgrid">'+T.map(t=>`<div><div class="kh">${t[0]}<small>（${t[1]} 个半音）</small></div>${kb({from:'C4',to:'B4',hl:t[2]})}</div>`).join('')+'</div><div class="cap">红 = 根音，紫 = 相对大三和弦被改动的音。小三和弦只要把大三和弦的中间音降半音。</div>';
+},
+diatonic(){
+  const R=['I','ii','iii','IV','V','vi','vii°'],F=['T','S','T','S','D','T','D'],Q=['大','小','小','大','大','小','减'];
+  const K=[['C 调',['C','Dm','Em','F','G','Am','Bdim']],['G 调',['G','Am','Bm','C','D','Em','F♯dim']],['F 调',['F','Gm','Am','B♭','C','Dm','Edim']],['D 调',['D','Em','F♯m','G','A','Bm','C♯dim']]];
+  let s='<div class="tw"><table class="tbl dia"><thead><tr><th>级数</th>'+R.map((r,i)=>`<th class="f${F[i]} ftone">${r}</th>`).join('')+'</tr></thead><tbody>';
+  s+='<tr><td>性质</td>'+Q.map(q=>`<td>${q}</td>`).join('')+'</tr>';
+  for(const [k,c] of K)s+=`<tr><td>${k}</td>`+c.map(x=>`<td>${x}</td>`).join('')+'</tr>';
+  s+='<tr><td>功能</td>'+F.map(f=>`<td><span class="fchip f${f} ftone">${f}</span></td>`).join('')+'</tr></tbody></table></div>';
+  return s+'<div class="cap">口诀“大小小大大小减”。颜色对应功能：绿 = 主 T，黄 = 下属 S，红 = 属 D。</div>';
+},
+func(){
+  const N=[['T','主功能',60,'fT','I、vi、iii','稳定'],['S','下属功能',170,'fS','IV、ii','离开'],['D','属功能',280,'fD','V、vii°','紧张']];
+  let s='<svg viewBox="0 0 340 200" class="svgf" style="max-width:420px;margin:0 auto" role="img" aria-label="和弦功能循环"><defs><marker id="ahF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ahp"/></marker></defs>';
+  N.forEach(([l,n,x,c,ch,f])=>{s+=`<g class="${c}"><circle cx="${x}" cy="62" r="40" class="fcirc"/><text x="${x}" y="64" class="ftxt fbig">${l}</text><text x="${x}" y="84" class="ftxt fsm">${n}</text></g><text x="${x}" y="124" class="fch">${ch}</text><text x="${x}" y="142" class="fde">${f}</text>`;});
+  s+='<path d="M102 62 L126 62" class="farr" marker-end="url(#ahF)"/><path d="M212 62 L236 62" class="farr" marker-end="url(#ahF)"/>';
+  s+='<path d="M280 154 Q170 206 62 156" class="farr" marker-end="url(#ahF)"/><text x="170" y="196" class="fde">解决：回到 I</text></svg>';
+  return s+'<div class="cap">流行歌的和弦大多在这三组之间流动：稳定 → 离开 → 紧张 → 回家。</div>';
+},
+inversions(){
+  const I=[['原位','根音 C 在最下',{'C4':[1,'C'],'E4':[3,'E'],'G4':[3,'G']}],['第一转位','三音 E 在最下',{'E4':[3,'E'],'G4':[3,'G'],'C5':[1,'C']}],['第二转位','五音 G 在最下',{'G4':[3,'G'],'C5':[1,'C'],'E5':[3,'E']}]];
+  return I.map(i=>`<div class="kh">${i[0]}<small>（${i[1]}）</small></div>${kb({from:'C4',to:'E5',hl:i[2]})}`).join('<div style="height:10px"></div>')+'<div class="cap">三个手型都是 C 和弦，性质不变，只是“重心”不同。每个和弦都要练熟三个转位。</div>';
+},
+progs(){
+  const P=[
+    ['卡农进行','I V vi iii IV I IV V','C G Am Em F C F G','G D Em Bm C G C D','温暖、怀旧，无数抒情歌的骨架',1],
+    ['王道进行（4536251）','IV V iii vi ii V I','F G Em Am Dm G C','C D Bm Em Am D G','深情、推进感强，华语和日系副歌常客',1],
+    ['万能进行','I V vi IV','C G Am F','G D Em C','开阔、励志，欧美流行最常见',1],
+    ['50 年代进行','I vi IV V','C Am F G','G Em C D','甜美、复古'],
+    ['小调开头','vi IV I V','Am F C G','Em C G D','忧伤里带着希望'],
+    ['二五一','ii7 V7 Imaj7','Dm7 G7 Cmaj7','Am7 D7 Gmaj7','爵士、R&amp;B 味道的句尾'],
+    ['基础三和弦','I IV V I','C F G C','G C D G','民谣、儿歌，入门第一个']
+  ];
+  const fn=r=>({I:'T',vi:'T',iii:'T',IV:'S',ii:'S',V:'D',vii:'D'})[/^(iii|ii|vii|vi|IV|V|I)/.exec(r)[1]];
+  return P.map(p=>{
+    const r=p[1].split(' '),c=p[2].split(' '),g=p[3].split(' ');
+    const chips=a=>a.map((x,i)=>`<span class="chip f${fn(r[i])} ftone">${x}</span>`).join('');
+    return `<div class="prog"><div class="ph"><b>${p[0]}</b>${p[5]?'<span class="tag key">重点</span>':''}</div><div class="pg" style="grid-template-columns:34px repeat(${r.length},minmax(0,1fr))"><span class="pl">级数</span>${r.map(x=>`<span class="pr">${x}</span>`).join('')}<span class="pl">C 调</span>${chips(c)}<span class="pl">G 调</span>${chips(g)}</div><div class="pf">${p[4]}</div></div>`;
+  }).join('')+'<div class="cap">颜色表示功能：绿 = 主，黄 = 下属，红 = 属。</div>';
+},
+bass(){
+  const C=['C','G/B','Am','Em/G','F','C/E','Dm','G'],B=['C','B','A','G','F','E','D','G'],L=[7,6,5,4,3,2,1,4];
+  const X=i=>10+i*40,Y=l=>170-l*17;
+  let d='';C.forEach((c,i)=>{d+=(i?' L':'M')+(X(i)+18)+' '+(Y(L[i])+6);});
+  let s=`<svg viewBox="0 0 340 200" class="svgf" style="max-width:440px" role="img" aria-label="卡农低音下行"><path d="${d}" class="bpath"/>`;
+  C.forEach((c,i)=>{const x=X(i),y=Y(L[i]);s+=`<text x="${x+18}" y="20" class="bch">${c}</text><rect x="${x+2}" y="${y}" width="32" height="12" rx="3" class="bstep"/><text x="${x+18}" y="${y+28}" class="bnote">${B[i]}</text>`;});
+  return s+'</svg><div class="cap">上排是和弦，红色台阶是左手低音：C → B → A → G → F → E → D 一级一级往下走，最后跳到 G 准备回到 C。右手和弦几乎不用移动。</div>';
+},
+flow(){
+  const S=[['定调','看“1=?”、调号，或听最后一个音'],['分句','4 或 8 小节一句'],['定和声节奏','先按每小节 1 个和弦'],['找强拍音','每小节第 1（和第 3）拍的旋律音'],['套和弦','查矩阵，选包含这个音的和弦'],['检查句尾','中间落 V 或 vi，结尾 V → I'],['优化替换','I 太多就换 vi、iii；IV 换 ii'],['边唱边验证','哪里别扭改哪里']];
+  return '<ol class="flow">'+S.map((s,i)=>`<li><span class="fn">${i+1}</span><span><b>${s[0]}</b><br><small>${s[1]}</small></span></li>`).join('')+'</ol>';
+},
+matrix(){
+  const R=[['I','C',[1,3,5],'T'],['ii','Dm',[2,4,6],'S'],['iii','Em',[3,5,7],'T'],['IV','F',[4,6,1],'S'],['V','G',[5,7,2],'D'],['vi','Am',[6,1,3],'T'],['V7','G7',[5,7,2,4],'D']];
+  let s='<div class="tw"><table class="tbl mx"><thead><tr><th>和弦</th>'+[1,2,3,4,5,6,7].map(n=>`<th>${n}</th>`).join('')+'</tr></thead><tbody>';
+  for(const [r,c,ns,f] of R)s+=`<tr><td>${r} <small>${c}</small></td>`+[1,2,3,4,5,6,7].map(n=>`<td>${ns.includes(n)?`<span class="dotc f${f}"></span>`:''}</td>`).join('')+'</tr>';
+  return s+'</tbody></table></div><div class="cap">表头 1–7 是旋律音（C 调简谱）。例：强拍旋律是 6 → 看“6”这一列，F、Dm、Am 都能用，再结合前后和弦和句尾选最顺的。</div>';
+},
+twinkle(){
+  const notes=[['1','1','5','5'],['6','6','5','–'],['4','4','3','3'],['2','2','1','–']];
+  const V=[['基础版：只用 I、IV、V',[['C'],['F','C'],['F','C'],['G','C']]],['色彩版：加入 ii、vi、V7 和转位',[['C'],['F','C/E'],['Dm','Am'],['G7','C']]]];
+  return V.map(([t,ch])=>`<div class="jh">${t}</div><div class="jp">`+notes.map((n,i)=>`<div class="jbar"><div class="jc">${ch[i].map(c=>`<span>${c}</span>`).join('')}</div><div class="jn">${n.map((x,j)=>`<span${j%2===0?' class="js"':''}>${x}</span>`).join('')}</div></div>`).join('')+'</div>').join('')+'<div class="cap">红色数字是强拍（第 1、3 拍）。第 2 小节强拍是 6 → 选含 6 的 F；第 3 拍是 5 → 回到 C。结尾 2 → 1 配 G → C，形成 V → I 完全终止。</div>';
+},
+lhkey(){
+  return `<div class="kh">C 和弦</div>${kb({from:'C3',to:'F4',hl:{'C3':[1,'1'],'G3':[3,'5'],'C4':[3,'8'],'D4':[2,'9'],'E4':[3,'10']}})}<div class="kh" style="margin-top:12px">Am 和弦：同一个手型，整体平移</div>${kb({from:'A2',to:'D4',hl:{'A2':[1,'1'],'E3':[3,'5'],'A3':[3,'8'],'B3':[2,'9'],'C4':[3,'10']}})}<div class="cap">红 = 根音，紫 = 9（装饰音）。1 到 10 跨度超过一个八度，手小可以先弹 1-5-8，或跳过 9 直接弹 1-5-10。</div>`;
+},
+lhpat(){
+  return grid('主歌开头：根音长音','4/4',[['左手',['1','-','-','-','-','-','-','-'],1]],'整小节只按一个根音，给人声留足空间。')+
+  grid('基础分解：1-5-8-5','4/4',[['左手',['1','5','8','5','1','5','8','5'],1]],'最通用，先用它练熟所有进行。')+
+  grid('抒情加九：1-5-8-9-10-9-8-5','4/4',[['左手',['1','5','8','9','10','9','8','5'],1]],'慢歌（♩=60–80）最常用，自带通透的 add9 色彩。')+
+  grid('6/8 抒情：1-5-8-10-8-5','6/8',[['左手',['1','5','8','10','8','5'],1]],'一小节刚好一个来回，摇篮曲般的律动。')+
+  grid('中速流行：八度 + 右手切分','4/4',[['右手',['和','','','和','','','和',''],2],['左手',['1+8','-','-','-','1+8','-','-','-'],1]],'♩=90–110，副歌最好用。“和”= 右手弹柱式和弦。')+
+  grid('快歌：八分根音持续','4/4',[['右手',['和','','','和','','','和',''],2],['左手',['1','1','1','1','1','1','1','1'],1]],'左手每个八分音符都弹根音（可弹八度），推动感很强。')+
+  grid('华尔兹：嘭—嚓—嚓','3/4',[['右手',['','','和','','和',''],2],['左手',['1','-','','','',''],1]],'3/4 拍歌曲专用。');
+},
+rhpat(){
+  return grid('四分柱式','4/4',[['右手',['和','','和','','和','','和',''],2]],'最稳，适合刚开始和慢歌。')+
+  grid('3+3+2 切分','4/4',[['右手',['和','','','和','','','和',''],2]],'落在第 1、4、7 格：咚——咚——咚—。流行歌最常见的律动。')+
+  grid('反拍','4/4',[['右手',['','和','','和','','和','','和'],2],['左手',['1','','1','','1','','1',''],1]],'左手弹在拍点上，右手弹在“哒”上，轻快有弹性。');
+},
+voice(){
+  const V=[['① C','C E G',{'C4':[2,'C'],'E4':[2,'E'],'G4':[2,'G']}],['② F','C F A',{'C4':[3,'C'],'F4':[1,'F'],'A4':[1,'A']}],['③ G','B D G',{'B3':[1,'B'],'D4':[1,'D'],'G4':[1,'G']}],['④ C','C E G',{'C4':[1,'C'],'E4':[1,'E'],'G4':[3,'G']}]];
+  return '<div class="kgrid">'+V.map(v=>`<div><div class="kh">${v[0]}<small>（右手 ${v[1]}）</small></div>${kb({from:'A3',to:'B4',hl:v[2]})}</div>`).join('')+'</div><div class="cap">黄 = 保留不动的共同音，红 = 移动的音（都只挪一两个键）。如果全用原位，C → F → G → C 手要来回跳四五个白键，声音也容易断。</div>';
+},
+mtop(){
+  return kb({from:'G4',to:'G5',hl:{'G4':[3,'G'],'C5':[3,'C'],'E5':[1,'E']}})+'<div class="cap">例：这一小节是 C 和弦，旋律落在 E（3）。右手同时按 G、C、E，旋律 E（红）在最上面；弱拍只弹旋律。</div>';
+},
+fill(){
+  return kb({from:'C4',to:'C5',hl:{'C4':[3,'1'],'D4':[3,'2'],'E4':[3,'3'],'G4':[3,'5'],'A4':[3,'6'],'C5':[3,'1']}})+'<div class="cap">C 调五声音阶：去掉 4 和 7，这几个音怎么组合都和谐，最适合即兴过门。</div>';
+},
+beats(){
+  const M=[['4/4',[['强',100],['弱',35],['次强',68],['弱',35]]],['3/4',[['强',100],['弱',35],['弱',35]]],['6/8',[['强',100],['弱',30],['弱',30],['次强',65],['弱',30],['弱',30]]]];
+  return M.map(([m,b])=>`<div class="bm"><span class="meter">${m}</span><div class="bb">${b.map(([t,h])=>`<div class="bcol"><div class="bv" style="height:${h*0.7}%"></div><span>${t}</span></div>`).join('')}</div></div>`).join('')+'<div class="cap">柱子越高越重。左手低音和右手重音都应该落在强拍上。</div>';
+},
+pedal(){
+  const xs=[48,120,192,264],w=68;
+  let s='<svg viewBox="0 0 340 168" class="svgf" style="max-width:440px" role="img" aria-label="踏板时间线">';
+  s+='<text x="4" y="46" class="sl">和弦</text><text x="4" y="80" class="sl">踏板</text><text x="30" y="96" class="sn">抬</text><text x="30" y="124" class="sn">踩</text>';
+  ['C','F','G','C'].forEach((c,i)=>{s+=`<rect x="${xs[i]}" y="26" width="${w}" height="30" rx="6" class="pbox"/><text x="${xs[i]+w/2}" y="46" class="pt">${c}</text>`;});
+  [118,190,262].forEach(x=>{s+=`<line x1="${x}" y1="20" x2="${x}" y2="132" class="pdash"/>`;});
+  let d='M48 92 L54 92 L58 120';[118,190,262].forEach(x=>{d+=` L${x} 120 L${x+2} 92 L${x+8} 92 L${x+12} 120`;});d+=' L336 120';
+  s+=`<path d="${d}" class="pline"/><text x="170" y="156" class="sn" text-anchor="middle">虚线处：手先按下新和弦 → 脚抬起 → 马上再踩下</text></svg>`;
+  return s;
+},
+energy(){
+  const L=['前奏','主歌','导歌','副歌','间奏','主歌','导歌','副歌','桥段','副歌','尾奏'],V=[3,2,4.5,7.5,3.5,3,5,8.5,3,10,2];
+  const X=i=>24+i*29.2,Y=v=>150-v*11.5;
+  const pts=V.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
+  let s='<svg viewBox="0 0 340 182" class="svgf" style="max-width:520px" role="img" aria-label="歌曲能量曲线">';
+  s+=`<line x1="14" y1="150" x2="332" y2="150" class="axis"/><polygon points="${X(0)},150 ${pts} ${X(10)},150" class="earea"/><polyline points="${pts}" class="eline"/>`;
+  V.forEach((v,i)=>{const ch=L[i]==='副歌';s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${ch?5:3.5}" class="edot${ch?' ech':''}"/><text x="${X(i)}" y="168" class="elab${ch?' ech2':''}">${L[i]}</text>`;});
+  s+=`<text x="${X(9)}" y="${Y(10)-10}" class="enote">最满</text><text x="14" y="16" class="sn">能量 = 力度 + 密度 + 音区</text></svg>`;
+  return s;
+},
+sections(){
+  const R=[['前奏','根音长音或慢分解','副歌旋律，或琶音','mp，中高音区'],['主歌','根音长音、1-5-8-5','轻柱式，音少','p–mp，音区窄'],['导歌','分解逐渐加密','节奏加密，渐强','mp → mf，逐渐拓宽'],['副歌','八度、1-5-8-10','3+3+2 柱式，可高八度','f，音区最宽'],['间奏','回到前奏素材','旋律或过门','mf'],['桥段','只留根音，或停下','换织体，或只剩右手','p，突然收窄'],['尾奏','重复末句，渐慢','琶音结束在 I','p → pp，逐渐收拢']];
+  return table(['段落','左手','右手','力度、音区'],R);
+},
+secondary(){
+  const S=[['D7','G','V7/V'],['E7','Am','V7/vi'],['A7','Dm','V7/ii'],['B7','Em','V7/iii'],['C7','F','V7/IV']];
+  let s='<div class="kh">C 调里最常用的五个</div><div class="sd">'+S.map(([a,b,r])=>`<div class="sdr"><span class="chip fD ftone">${a}</span><span class="sar">→</span><span class="chip nt">${b}</span><small>${r}</small></div>`).join('')+'</div>';
+  s+='<div class="kh" style="margin-top:14px">例：把王道进行的 Em 换成 E7</div><div class="sdx"><span class="chip nt">F</span><span class="chip nt">G</span><span class="chip nt">Em</span><span class="chip nt">Am</span></div><div class="sdx"><span class="chip nt">F</span><span class="chip nt">G</span><span class="chip fD ftone">E7</span><span class="chip nt">Am</span></div>';
+  s+='<div class="kh" style="margin-top:14px">E7 = E G♯ B D</div>'+kb({from:'E4',to:'E5',hl:{'E4':[3,'E'],'G#4':[1,'G♯'],'B4':[3,'B'],'D5':[3,'D']}});
+  return s+'<div class="cap">G♯ 是 C 调里没有的音，离 A 只差半音，会把耳朵强烈地拉向 Am。找法：Am 的根音 A 往上数纯五度是 E，所以用 E7。</div>';
+},
+daily(){
+  const D=[['和弦转位',5,350,'当天的调，7 个顺阶和弦 × 3 个转位，上行再下行'],['进行 + 织体',10,250,'一个进行配一个左手型，开节拍器'],['实战一首歌',10,40,'正在练的歌，按段落练'],['录音或扒歌',5,160,'录下来听；或听一首新歌，哼出低音找根音']];
+  return '<div class="dbar">'+D.map(d=>`<div class="dseg" style="flex:${d[1]};--h:${d[2]}">${d[1]} 分</div>`).join('')+'</div><ul class="dl">'+D.map(d=>`<li style="--h:${d[2]}"><span class="dsw"></span><span><b>${d[0]}</b>（${d[1]} 分钟）<br><small>${d[3]}</small></span></li>`).join('')+'</ul>';
+},
+capo(){
+  const R=[['不夹','C','G'],['1','C♯ / D♭','A♭'],['2','D','A'],['3','E♭','B♭'],['4','E','B'],['5','F','C']];
+  return table(['变调夹','按 C 指法，实际是','按 G 指法，实际是'],R.map(r=>[r[0],r[1]+' 调',r[2]+' 调']))+'<div class="cap">例：谱上写“Capo 3”，和弦是 C、Am、F、G → 钢琴实际要弹 E♭ 调的 E♭、Cm、A♭、B♭。</div>';
+}
+};
+
+/* ---------- content ---------- */
+const TREE=[
+{id:'road',t:'学习路线',icon:'🧭',sum:'先看全局：学什么、按什么顺序、学到什么程度',c:[
+  {t:'核心公式',tag:'key',d:'即兴伴奏 = <b>和弦</b>（弹什么音）+ <b>织体与节奏</b>（怎么弹）+ <b>编配</b>（什么时候变化）。后面所有分支都在回答这三个问题。'},
+  {t:'你的起点',d:'默认你已经能读简谱或五线谱、会弹 C 大调音阶、双手能简单配合。如果左右手还很难独立，先花一周练“左手全音符 + 右手四分音符”的配合。'},
+  {t:'五阶段路线（可打勾记录进度）',tag:'key',fig:'roadmap'},
+  {t:'怎样算“学会了”',d:'拿到一首带和弦标记的流行歌，15 分钟内能弹出：有前奏、主歌和副歌听得出区别、节奏稳定不中断的伴奏。'}
+]},
+{id:'theory',t:'乐理地基',icon:'📐',sum:'看懂和弦所需的最少乐理',c:[
+  {t:'半音与全音',fig:'semitone',d:'键盘上相邻的两个键（包括黑键）相差<b>半音</b>；中间隔一个键就是<b>全音</b>。所有音程、和弦都用“几个半音”来计算。'},
+  {t:'大调音阶公式',tag:'key',fig:'scale',d:'<b>全—全—半—全—全—全—半</b>。从任何一个音出发套这个公式，就得到这个调的音阶。'},
+  {t:'音程：两个音的距离',tag:'key',fig:'intervals',d:'重点记住三个：<b>大三度 = 4 个半音</b>、<b>小三度 = 3 个半音</b>、<b>纯五度 = 7 个半音</b>。和弦就是用它们搭起来的。'},
+  {t:'级数思维（首调）',tag:'key',d:'把当前调的主音当作 1，和弦用罗马数字表示：大写 I、IV、V 是大和弦，小写 ii、iii、vi 是小和弦。<br>好处：<b>同一个进行可以平移到任何调</b>。比如 I–V–vi–IV 在 C 调是 C–G–Am–F，在 G 调就是 G–D–Em–C。'},
+  {t:'五度圈：调的地图',fig:'circle',d:'顺时针每走一格升高纯五度、多一个升号；逆时针多一个降号。相邻的调关系最近，转调、移调都靠它。'},
+  {t:'先练哪些调',d:'第一批：C、G、F。第二批：D、B♭。第三批：A、E♭、E。流行歌最常见的调基本都在这里，不必一开始就追求 12 个调。'},
+  {t:'看懂和弦标记',tag:'key',fig:'symbols',d:'和弦谱上的字母是<b>绝对音高</b>（C 就是 C），即使配的是简谱也一样。少数谱用数字（1、4、5、6m）标和弦，那就是级数。'}
+]},
+{id:'chord',t:'和弦体系',icon:'🎹',sum:'从三和弦到七和弦、转位、挂留',c:[
+  {t:'三和弦的四种性质',tag:'key',fig:'triads',d:'三个音按三度叠起来：根音、三音、五音。区别全在<b>两个三度的大小</b>：',c:[
+    {t:'大三和弦（4+3）：明亮、开心，如 C'},
+    {t:'小三和弦（3+4）：柔和、忧伤，如 Cm'},
+    {t:'减三和弦（3+3）：紧张，如 Cdim'},
+    {t:'增三和弦（4+4）：悬浮、不安，如 Caug'}
+  ]},
+  {t:'顺阶和弦（调内和弦）',tag:'key',fig:'diatonic',d:'用调里的 7 个音，在每个音上叠三和弦，得到这个调的 7 个“自家和弦”。流行歌的大部分和弦都来自这里，其中 <b>I、IV、V、vi</b> 四个最常用。'},
+  {t:'和弦的功能：T、S、D',tag:'key',fig:'func',d:'把和弦按“情绪角色”分三组，配和弦和编进行时最有用：',c:[
+    {t:'主功能 T：I（及 vi、iii），稳定、回家'},
+    {t:'下属功能 S：IV、ii，离开、展开'},
+    {t:'属功能 D：V、vii°，紧张、想回到 I'}
+  ]},
+  {t:'七和弦',d:'在三和弦上再叠一个三度。C 调顺阶七和弦：Cmaj7、Dm7、Em7、Fmaj7、G7、Am7、Bm7♭5。',c:[
+    {t:'大七 maj7：用在 I、IV，温柔、都市感'},
+    {t:'属七 7：只在 V 上，“回家”的拉力最强'},
+    {t:'小七 m7：用在 ii、iii、vi，柔和、慵懒'},
+    {t:'流行用法：副歌前的 V 换成 V7，结尾的 I 换成 Imaj7'}
+  ]},
+  {t:'转位和弦',tag:'key hard',fig:'inversions',d:'同样三个音，换一个音放在最下面就是转位。<b>右手练熟每个和弦的 3 个转位</b>，才能做到后面的“就近连接”，这是从“会按和弦”到“弹得好听”的分水岭。'},
+  {t:'斜杠和弦 C/E',d:'斜线前是和弦，斜线后是低音：C/E = 右手弹 C 和弦，左手低音弹 E。作用是让低音线一级一级走，听起来更流畅（见“和弦进行”分支的低音下行）。'},
+  {t:'挂留与加音：色彩和弦',c:[
+    {t:'sus4：三音换成四音（C F G），悬着，通常回到 C。句尾常用 Gsus4 → G'},
+    {t:'sus2：三音换成二音（C D G），空灵、通透'},
+    {t:'add9：在大三和弦上加 9 度（C E G D），流行钢琴最常用的“高级感”'}
+  ]}
+]},
+{id:'prog',t:'和弦进行',icon:'🔁',sum:'背熟这几个套路，大部分流行歌都能套',c:[
+  {t:'七个必背进行',tag:'key',fig:'progs',d:'用级数记，并在 C、G、F 三个调都弹熟。'},
+  {t:'低音下行（卡农低音）',tag:'key',fig:'bass',d:'把卡农进行改成斜杠和弦：C – G/B – Am – Em/G – F – C/E – Dm – G。左手低音一级级往下走，是抒情歌前奏和主歌的经典写法。'},
+  {t:'终止式：句子怎么收尾',tag:'key',c:[
+    {t:'完全终止 V → I：最稳，用在全曲结尾、段落结束'},
+    {t:'变格终止 IV → I：柔和，像“阿门”'},
+    {t:'半终止：停在 V，表示话还没说完，常在乐句中间'},
+    {t:'阻碍终止 V → vi：以为要回家却转了个弯，常用来延长副歌'}
+  ]},
+  {t:'背进行的方法',d:'① 先只弹柱式和弦，嘴里念级数；② 再换上左手织体；③ 最后换到 G、F 调。每个进行至少要能“不看谱、不停顿”地循环 4 遍。'}
+]},
+{id:'harm',t:'配和弦法',icon:'🧩',sum:'只有旋律时，自己找出和弦',c:[
+  {t:'完整流程',tag:'hard',fig:'flow'},
+  {t:'第 1 步：定调',tag:'key',d:'看简谱开头的“1=C”；或看调号；或听歌曲<b>最后一个音</b>：大调歌多落在 1，小调歌多落在 6。'},
+  {t:'第 2 步：分句与和声节奏',d:'流行歌通常 4 小节或 8 小节一句。先按<b>每小节一个和弦</b>配，旋律变化多、节奏紧凑的地方再改成每小节两个。'},
+  {t:'第 3 步：找强拍音，对照选和弦',tag:'key hard',fig:'matrix',d:'每小节第 1 拍（4/4 拍还有第 3 拍）的旋律音，最好是和弦里的音。查下面的矩阵：竖着看一个旋律音，有圆点的和弦都能用。'},
+  {t:'第 4 步：检查句尾',tag:'key',d:'中间乐句的句尾常落在 V（半终止）或 vi；全曲最后一句用 V → I。如果句尾没“收住”，多半是这里配错了。'},
+  {t:'第 5 步：优化替换',d:'I 用太多会单调：换成同功能的 vi 或 iii；IV 可换成 ii；V 前面加 ii 组成“二五”。'},
+  {t:'实例：给《小星星》配和弦',tag:'key',fig:'twinkle'},
+  {t:'偷懒法',d:'先只用 I、IV、V、vi 四个和弦试，大多数流行旋律都够用。边唱边弹，哪里“别扭”就只改哪里。'}
+]},
+{id:'lh',t:'左手织体',icon:'🫲',sum:'伴奏的骨架：低音 + 律动',c:[
+  {t:'数字记法：1、5、8、10 是什么',tag:'key',fig:'lhkey',d:'为了让一个手型适用于所有和弦，用数字表示和弦音的位置：<b>1</b> 根音，<b>5</b> 五音，<b>8</b> 高八度根音，<b>9</b> 高八度的二度，<b>10</b> 高八度的三音。换和弦时手型不变，整体平移。'},
+  {t:'五种基本织体',c:[
+    {t:'根音长音：最简单，适合主歌开头'},
+    {t:'八度根音（1+8）：饱满有力，副歌常用'},
+    {t:'根音 + 五度（1+5）：干净、现代，不分大小调'},
+    {t:'分解和弦（1-5-8-5 等）：最常用，流动感强'},
+    {t:'琶音：从下往上快速铺开，用在句尾、尾奏'}
+  ]},
+  {t:'按风格选节奏型',tag:'key',fig:'lhpat',d:'格子里的数字就是上一条的音位，浅色横条表示延长。先用节拍器 ♩=60 慢练，稳了再加速。'},
+  {t:'低音区不能弹密集和弦',tag:'hard',d:'中央 C 往下一个八度以内，左手可以弹三和弦；再往下，三度音程会糊成一团。低音区只弹<b>根音、五度、八度</b>。'},
+  {t:'左手要“轻”',d:'左手是地基不是主角：力度比右手小一档。有人唱歌时，低音太重会盖住人声。'}
+]},
+{id:'rh',t:'右手角色',icon:'🫱',sum:'弹和弦、弹旋律，还是加花',c:[
+  {t:'先分清两种场景',tag:'key',c:[
+    {t:'给别人伴奏（有人唱）：右手弹和弦和节奏，<b>不弹或少弹旋律</b>，给人声留空间'},
+    {t:'自己弹奏（没人唱）：右手弹旋律，旋律下方补和弦音，旋律永远在最上面'}
+  ]},
+  {t:'就近连接（声部进行）',tag:'key hard',fig:'voice',d:'原则：<b>共同音保留，其他音走最近的路</b>。右手几乎不用移动，和弦之间听起来像连在一起。'},
+  {t:'右手节奏型',fig:'rhpat',d:'3+3+2 是流行歌里最常见的切分：8 个八分音符分成 3、3、2 三组，每组第一个弹。'},
+  {t:'旋律 + 和弦（独奏时）',fig:'mtop',d:'强拍：旋律音在最上面，下方补 1–2 个和弦音；弱拍：只弹旋律。'},
+  {t:'加花与过门',fig:'fill',d:'人声唱长音、或两句之间有空隙时，右手补一点小旋律：',c:[
+    {t:'五声音阶 1 2 3 5 6 上行或下行，怎么弹都不难听'},
+    {t:'把和弦分解成琶音往上爬'},
+    {t:'倚音：从目标音下方半音滑进去（如 ♯4 → 5）'}
+  ]},
+  {t:'音区',d:'右手主要在中央 C 到高一个八度之间。和人声同一音区时，把右手挪高一个八度或改弹分解，避免“打架”。'}
+]},
+{id:'rhythm',t:'节奏踏板',icon:'🥁',sum:'稳定的律动比复杂的和弦更重要',c:[
+  {t:'拍号与强弱',tag:'key',fig:'beats',d:'流行歌绝大多数是 4/4 拍；抒情慢歌常见 6/8 拍；华尔兹是 3/4 拍。先跟着歌拍手，判断是几拍子。'},
+  {t:'节奏格子怎么看',d:'本导图的节奏图都用格子表示：一小节分成 8 格（八分音符），读作“1 哒 2 哒 3 哒 4 哒”。<b>有字的格子就弹</b>，空格不弹，浅色横条表示延长。'},
+  {t:'节拍器练法',tag:'key',c:[
+    {t:'从 ♩=60 开始，连续 4 遍不出错再加 5'},
+    {t:'进阶：把节拍器的声音当成第 2、4 拍（反拍），律动感立刻提升'},
+    {t:'宁可弹简单，也不要为了找和弦停下来'}
+  ]},
+  {t:'踏板：换和弦就换踏板',tag:'key hard',fig:'pedal',d:'这叫“切音踏板”：<b>先按下新和弦，再快速抬起踏板、马上踩下</b>。顺序反了，声音就会断开或混在一起。'},
+  {t:'什么时候少踩',c:[
+    {t:'快歌、断奏的节奏型：少踩或不踩，保持颗粒感'},
+    {t:'低音浑浊时：只踩一半（半踏板）'},
+    {t:'一小节换两个和弦：踏板也换两次'}
+  ]}
+]},
+{id:'arr',t:'编配结构',icon:'🎬',sum:'让伴奏有起伏，而不是一个模式弹到底',c:[
+  {t:'认识歌曲结构',d:'前奏 → 主歌 → 导歌（预副歌）→ 副歌 → 间奏 → 主歌 2 → 副歌 2 → 桥段 → 最后副歌 → 尾奏。先听原曲，标出每段从第几小节开始。'},
+  {t:'能量曲线',tag:'key',fig:'energy',d:'伴奏跟着歌曲的情绪走：主歌低、副歌高、桥段回落、最后一次副歌最高。'},
+  {t:'对比的三个旋钮',tag:'key',c:[
+    {t:'力度：p → f'},
+    {t:'密度：长音 → 分解 → 柱式切分（音符越多越激动）'},
+    {t:'音区：窄 → 宽（副歌左手往下、右手往上）'}
+  ]},
+  {t:'各段落怎么弹',tag:'key',fig:'sections'},
+  {t:'前奏的三种快速做法',c:[
+    {t:'用副歌最后 4 小节的和弦，右手弹副歌旋律'},
+    {t:'用卡农低音下行弹 4 或 8 小节'},
+    {t:'只弹主歌第一个和弦的琶音，留白给歌手进'}
+  ]},
+  {t:'段落衔接',d:'进副歌前一小节：可以渐强、用上行琶音，或者整拍停顿制造期待；也可以把最后一个和弦换成 V7。'},
+  {t:'尾奏',d:'重复最后一句的和弦，渐慢渐弱，最后用琶音停在 I（换成 Iadd9 或 Imaj7 更有余味）。'}
+]},
+{id:'adv',t:'进阶色彩',icon:'✨',sum:'让伴奏从“对”变成“好听”',c:[
+  {t:'副属和弦（次属和弦）',tag:'hard',fig:'secondary',d:'在任意和弦前加上“它的 V7”，推进感更强。找法：<b>目标和弦的根音往上数纯五度</b>，在那个音上弹属七和弦。'},
+  {t:'和弦替代',c:[
+    {t:'同功能替换：I ↔ vi ↔ iii，IV ↔ ii'},
+    {t:'加色彩：C → Cadd9，F → Fmaj7，G → Gsus4 → G'},
+    {t:'V 前加 ii：G → Dm7 G7（二五）'}
+  ]},
+  {t:'经过和弦',c:[
+    {t:'低音级进：C → C/B → Am → Am/G → F'},
+    {t:'减七经过：C → C♯dim7 → Dm，抒情歌很常见'}
+  ]},
+  {t:'持续低音',d:'左手一直弹主音，右手照常换和弦（如 C → F/C → G/C → C）。适合前奏，制造悬念和空间感。'},
+  {t:'借用和弦',d:'从同主音小调借和弦，制造伤感色彩。最常用：<b>IV → iv → I</b>（C 调：F → Fm → C），用在句尾特别动人。'},
+  {t:'最后副歌升调',tag:'hard',d:'常升半音或全音。做法：升调前一小节弹<b>新调的 V7</b>。例：C 调升到 D 调，前一小节弹 A7，然后直接进 D 调的副歌。'},
+  {t:'移调',d:'歌手唱不上去就要换调。先把和弦谱写成级数，再套到新调；熟悉五度圈会快很多。'}
+]},
+{id:'practice',t:'练习方法',icon:'🏋️',sum:'每天 30 分钟怎么分配',c:[
+  {t:'每日 30 分钟模板',tag:'key',fig:'daily'},
+  {t:'实战一首歌的七步',tag:'key',c:[
+    {t:'① 选歌：慢速（♩<80）、4/4 拍、和弦不超过 5 个、不转调'},
+    {t:'② 找和弦谱，确认原调（留意吉他谱的变调夹）'},
+    {t:'③ 只用柱式和弦把全曲弹顺'},
+    {t:'④ 选一个左手织体套上去'},
+    {t:'⑤ 按段落设计：主歌轻、副歌满'},
+    {t:'⑥ 跟着原曲或自己唱着弹'},
+    {t:'⑦ 录音回听，每次只挑一个问题改'}
+  ]},
+  {t:'听力训练',c:[
+    {t:'跟着歌哼出低音线，找根音'},
+    {t:'分辨大和弦（明亮）和小和弦（暗淡）'},
+    {t:'熟悉 I、IV、V、vi 各自的感觉，听歌时猜级数'}
+  ]},
+  {t:'选歌的进阶顺序',d:'慢速抒情（和弦少）→ 中速流行（有切分）→ 快歌 → 带转调、副属和弦的歌。'},
+  {t:'学会“降级”',tag:'key',d:'弹不过来时做减法：左手只弹根音，右手只弹柱式。<b>先保证不停、节奏稳，再慢慢加花</b>。'}
+]},
+{id:'pit',t:'常见误区',icon:'⚠️',sum:'弹完一首歌，对照这里自查',c:[
+  {t:'左手太重、太低 → 浑浊，盖住人声'},
+  {t:'和弦跳来跳去 → 用转位就近连接'},
+  {t:'一个织体弹到底 → 主歌和副歌必须有对比'},
+  {t:'为找和弦停顿 → 宁可弹简单，节奏不能断'},
+  {t:'右手跟着唱旋律 → 有人唱时，右手让出旋律'},
+  {t:'踏板一直踩着 → 换和弦必须换踏板'},
+  {t:'只会 C 调 → 尽早练 G、F 调'},
+  {t:'照搬吉他谱 → 先看变调夹',tag:'hard',fig:'capo',d:'吉他谱常写“Capo 2”，上面的和弦字母只是<b>指法</b>，不是实际音高。实际调 = 指法调 + 变调夹格数（每格升半音）。钢琴要按实际调弹，或者全曲统一移调。'}
+]}
+];
+TREE.forEach((b,i)=>{b.h=(210+i*30)%360;});
+
+/* ---------- render ---------- */
+let uid=0;
+const hasTag=n=>!!n.tag||(n.c||[]).some(hasTag);
+const countN=n=>(n.c||[]).reduce((a,x)=>a+1+countN(x),0);
+const countF=n=>(n.c||[]).reduce((a,x)=>a+(x.fig?1:0)+countF(x),0);
+function tagsHTML(n){
+  let s='';
+  if(n.tag){if(n.tag.includes('key'))s+='<span class="tag key">重点</span>';if(n.tag.includes('hard'))s+='<span class="tag hard">难点</span>';}
+  if(n.fig)s+='<span class="figm" title="含图解">📊</span>';
+  return s?`<span class="tags">${s}</span>`:'';
+}
+function nodeHTML(n,lv){
+  const ht=hasTag(n)?1:0;
+  if(!(n.d||n.fig||n.c))return `<li class="lv${lv}" data-t="${ht}"><div class="nrow"><span class="dot"></span><span class="ntext">${n.t}${tagsHTML(n)}</span></div></li>`;
+  const id='n'+(++uid);
+  let body='';
+  if(n.d)body+=`<p>${n.d}</p>`;
+  if(n.fig)body+=`<div class="fig">${FIG[n.fig]()}</div>`;
+  if(n.c)body+=`<ul class="tree">${n.c.map(x=>nodeHTML(x,lv+1)).join('')}</ul>`;
+  return `<li class="lv${lv}" data-t="${ht}"><button type="button" class="nrow" aria-expanded="false" aria-controls="${id}"><span class="chev" aria-hidden="true">›</span><span class="ntext">${n.t}${tagsHTML(n)}</span></button><div class="nbody" id="${id}" hidden>${body}</div></li>`;
+}
+function branchHTML(b){
+  const f=countF(b);
+  return `<section class="branch" id="${b.id}" style="--h:${b.h}"><button type="button" class="bhead" aria-expanded="false" aria-controls="${b.id}-b"><span class="bicon" aria-hidden="true">${b.icon}</span><span class="bt"><span class="btitle">${b.t}</span><span class="bsum">${b.sum}</span></span><span class="bmeta">${countN(b)} 个要点${f?`<br>${f} 张图解`:''}</span><span class="chev" aria-hidden="true">›</span></button><div class="bbody" id="${b.id}-b" hidden><ul class="tree">${b.c.map(n=>nodeHTML(n,2)).join('')}</ul></div></section>`;
+}
+function overview(){
+  const cx=200,cy=200,R=150,n=TREE.length;
+  let lines='',nodes='';
+  TREE.forEach((b,i)=>{
+    const a=(-90+i*360/n)*Math.PI/180,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);
+    const qa=a+0.22,qx=cx+92*Math.cos(qa),qy=cy+92*Math.sin(qa);
+    lines+=`<path d="M${(cx+52*Math.cos(a)).toFixed(1)} ${(cy+52*Math.sin(a)).toFixed(1)} Q${qx.toFixed(1)} ${qy.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}" class="ovl" style="--h:${b.h}"/>`;
+    nodes+=`<g class="ovn" style="--h:${b.h}" data-go="${b.id}" tabindex="0" role="button" aria-label="跳到 ${b.t}"><rect x="${(x-35).toFixed(1)}" y="${(y-16).toFixed(1)}" width="70" height="32" rx="16"/><text x="${x.toFixed(1)}" y="${(y+5).toFixed(1)}">${b.t}</text></g>`;
+  });
+  return `<svg viewBox="0 0 400 400" class="ov" role="group" aria-label="思维导图总览">${lines}<circle cx="${cx}" cy="${cy}" r="54" class="ovc"/><text x="${cx}" y="${cy-4}" class="ovct">即兴</text><text x="${cx}" y="${cy+22}" class="ovct">伴奏</text>${nodes}</svg>`;
+}
+
+const map=document.getElementById('map');
+document.getElementById('overview').innerHTML=overview();
+map.innerHTML=TREE.map(branchHTML).join('');
+
+function setOpen(b,o){b.setAttribute('aria-expanded',o?'true':'false');const t=document.getElementById(b.getAttribute('aria-controls'));if(t)t.hidden=!o;}
+function goTo(id){
+  const sec=document.getElementById(id);if(!sec)return;
+  setOpen(sec.querySelector('.bhead'),true);
+  const rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  sec.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});
+}
+setOpen(document.querySelector('#road .bhead'),true);
+
+document.addEventListener('click',e=>{
+  const go=e.target.closest('[data-go]');if(go){goTo(go.dataset.go);return;}
+  const act=e.target.closest('[data-act]');
+  if(act){
+    const a=act.dataset.act;
+    if(a==='open')map.querySelectorAll('button[aria-expanded]').forEach(b=>setOpen(b,true));
+    if(a==='close')map.querySelectorAll('button[aria-expanded]').forEach(b=>setOpen(b,false));
+    if(a==='filter'){
+      const on=act.getAttribute('aria-pressed')!=='true';
+      act.setAttribute('aria-pressed',on?'true':'false');
+      map.classList.toggle('filtering',on);
+      if(on)map.querySelectorAll('button[aria-expanded]').forEach(b=>setOpen(b,true));
+    }
+    return;
+  }
+  const b=e.target.closest('button[aria-expanded]');
+  if(b)setOpen(b,b.getAttribute('aria-expanded')!=='true');
+});
+document.addEventListener('keydown',e=>{
+  const go=e.target.closest&&e.target.closest('[data-go]');
+  if(go&&(e.key==='Enter'||e.key===' ')){e.preventDefault();goTo(go.dataset.go);}
+});
+document.addEventListener('change',e=>{
+  if(!e.target.matches('[data-road]'))return;
+  const d={};document.querySelectorAll('[data-road]').forEach(c=>{if(c.checked)d[c.dataset.road]=1;});
+  try{localStorage.setItem(LSK,JSON.stringify(d));}catch(err){}
+});
+</script>
+</body>
+</html>
